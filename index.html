@@ -74,10 +74,10 @@
       };
 
       try {
-        const response = await fetch('https://formulario-amigos.onrender.com', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch('https://formulario-amigos.onrender.com/api/amigos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
           },
           body: JSON.stringify(data),
         });
