@@ -47,6 +47,12 @@
     .form-container button:hover {
       background-color: #388e3c;
     }
+
+    #mensaje {
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -59,13 +65,14 @@
       <input type="date" id="cumpleaños" placeholder="Cumpleaños" required>
       <button type="submit">Enviar</button>
     </form>
-    <p id="mensaje" style="color: green; text-align: center;"></p>
+    <p id="mensaje"></p>
   </div>
 
   <script>
     document.getElementById('form-amigos').addEventListener('submit', async function (e) {
-      e.preventDefault();
+      e.preventDefault(); // Prevenir recarga del formulario
 
+      // Captura los datos del formulario
       const data = {
         nombre: document.getElementById('nombre').value,
         apellido: document.getElementById('apellido').value,
@@ -74,25 +81,30 @@
       };
 
       try {
+        // Envía los datos al backend usando fetch
         const response = await fetch('https://formulario-amigos.onrender.com/api/amigos', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-          },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),
         });
 
+        // Procesa la respuesta del servidor
         if (response.ok) {
           document.getElementById('mensaje').textContent = '¡Datos enviados con éxito!';
+          document.getElementById('mensaje').style.color = 'green';
           document.getElementById('form-amigos').reset();
         } else {
           document.getElementById('mensaje').textContent = 'Hubo un error al enviar los datos.';
+          document.getElementById('mensaje').style.color = 'red';
         }
       } catch (error) {
+        // Muestra error si la conexión falla
         console.error(error);
         document.getElementById('mensaje').textContent = 'No se pudo conectar con el servidor.';
+        document.getElementById('mensaje').style.color = 'red';
       }
     });
   </script>
 </body>
 </html>
+
