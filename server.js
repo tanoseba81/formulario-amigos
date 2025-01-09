@@ -55,3 +55,19 @@ app.post('/api/amigos', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+app.post('/api/amigos', (req, res) => {
+    const { nombre, apellido, telefono, cumpleaños } = req.body;
+    console.log(`Datos recibidos: ${JSON.stringify(req.body)}`); // Log para Render
+    const query = `
+        INSERT INTO amigos (nombre, apellido, telefono, cumpleaños)
+        VALUES (?, ?, ?, ?)
+    `;
+    db.run(query, [nombre, apellido, telefono, cumpleaños], function (err) {
+        if (err) {
+            console.error('Error al insertar datos:', err.message); // Log de errores
+            res.status(500).send('Error al guardar los datos');
+        } else {
+            res.status(200).send('Datos guardados correctamente');
+        }
+    });
+});
