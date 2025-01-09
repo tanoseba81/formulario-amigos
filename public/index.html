@@ -49,7 +49,6 @@
     }
 
     #mensaje {
-      color: green;
       text-align: center;
       margin-top: 10px;
     }
@@ -74,9 +73,9 @@
 
       // Captura los datos del formulario
       const data = {
-        nombre: document.getElementById('nombre').value,
-        apellido: document.getElementById('apellido').value,
-        telefono: document.getElementById('telefono').value,
+        nombre: document.getElementById('nombre').value.trim(),
+        apellido: document.getElementById('apellido').value.trim(),
+        telefono: document.getElementById('telefono').value.trim(),
         cumpleaños: document.getElementById('cumpleaños').value,
       };
 
@@ -94,12 +93,13 @@
           document.getElementById('mensaje').style.color = 'green';
           document.getElementById('form-amigos').reset();
         } else {
-          document.getElementById('mensaje').textContent = 'Hubo un error al enviar los datos.';
+          const errorMessage = await response.text();
+          document.getElementById('mensaje').textContent = `Error: ${errorMessage}`;
           document.getElementById('mensaje').style.color = 'red';
         }
       } catch (error) {
         // Muestra error si la conexión falla
-        console.error(error);
+        console.error('Error de conexión:', error);
         document.getElementById('mensaje').textContent = 'No se pudo conectar con el servidor.';
         document.getElementById('mensaje').style.color = 'red';
       }
@@ -107,4 +107,5 @@
   </script>
 </body>
 </html>
+
 
