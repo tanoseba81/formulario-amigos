@@ -1,15 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 const Database = require('better-sqlite3');
 
 // Crear servidor
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Usa el puerto de Render o el puerto local
 
 // Middleware
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ['https://tanoseba81.github.io', 'https://formulario-amigos.onrender.com'], // Dominios permitidos
+  })
+);
 
 // Conectar a SQLite usando better-sqlite3
 const db = new Database('./data/amigos.db', { verbose: console.log });
@@ -24,6 +29,14 @@ db.exec(`
     cumpleaños DATE NOT NULL
   )
 `);
+
+// Servir archivos estáticos (por ejemplo, index.html)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Ruta para servir el archivo index.html desde la raíz
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Ruta para guardar datos
 app.post('/api/amigos', (req, res) => {
@@ -44,6 +57,17 @@ app.post('/api/amigos', (req, res) => {
   } catch (err) {
     console.error('Error al insertar datos:', err.message); // Log de errores
     res.status(500).send('Error al guardar los datos');
+  }
+});
+
+// Ruta para obtener los datos (opcional, útil para pruebas)
+app.get('/api/amigos', (req, res) => {
+  try {
+    const rows = db.prepare('SELECT * FROM amigos').all();
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener los datos:', err.message); // Log de errores
+    res.status(500).send('Error al obtener los datos');
   }
 });
 
