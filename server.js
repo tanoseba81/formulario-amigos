@@ -27,11 +27,11 @@ db.exec(`
 `);
 
 // Servir archivos estáticos (por ejemplo, index.html)
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname, 'public'));
 
 // Ruta para servir el archivo index.html desde la raíz
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Ruta para guardar datos
