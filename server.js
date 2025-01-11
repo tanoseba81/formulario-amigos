@@ -26,8 +26,8 @@ db.exec(`
   )
 `);
 
-// Servir archivos estáticos (por ejemplo, index.html)
-app.use(express.static(__dirname, 'public'));
+// Servir archivos estáticos desde la raíz del proyecto
+app.use(express.static(path.join(__dirname)));
 
 // Ruta para servir el archivo index.html desde la raíz
 app.get('/', (req, res) => {
@@ -76,6 +76,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-// Comentario de prueba para generar un nuevo commit 222222
-// Comentario de prueba para generar un nuevo commit 222222222233
-// Comentario de prueba para generar un nuevo commit 2222222222333444444
