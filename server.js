@@ -10,11 +10,7 @@ const PORT = process.env.PORT || 3000; // Usa el puerto de Render o el puerto lo
 
 // Middleware
 app.use(bodyParser.json());
-app.use(
-  cors({
-    origin: ['https://tanoseba81.github.io', 'https://formulario-amigos.onrender.com'], // Dominios permitidos
-  })
-);
+app.use(cors()); // Habilitar CORS para todas las solicitudes
 
 // Conectar a SQLite usando better-sqlite3
 const db = new Database('./data/amigos.db', { verbose: console.log });
@@ -69,6 +65,11 @@ app.get('/api/amigos', (req, res) => {
     console.error('Error al obtener los datos:', err.message); // Log de errores
     res.status(500).send('Error al obtener los datos');
   }
+});
+
+// Ruta para manejar errores 404
+app.use((req, res) => {
+  res.status(404).send('Ruta no encontrada');
 });
 
 // Iniciar servidor
