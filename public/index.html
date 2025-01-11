@@ -90,7 +90,9 @@
         // Envía los datos al backend usando fetch
         const response = await fetch('https://formulario-amigos.onrender.com/api/amigos', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify(data),
         });
 
@@ -114,6 +116,3 @@
   </script>
 </body>
 </html>
-
-
-
