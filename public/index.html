@@ -60,7 +60,7 @@
     <form id="form-amigos">
       <input type="text" id="nombre" placeholder="Nombre" required>
       <input type="text" id="apellido" placeholder="Apellido" required>
-      <input type="tel" id="telefono" placeholder="Teléfono" required>
+      <input type="tel" id="telefono" placeholder="Teléfono" required pattern="[0-9]{10}">
       <input type="date" id="cumpleaños" placeholder="Cumpleaños" required>
       <button type="submit">Enviar</button>
     </form>
@@ -78,6 +78,13 @@
         telefono: document.getElementById('telefono').value.trim(),
         cumpleaños: document.getElementById('cumpleaños').value,
       };
+
+      // Validaciones adicionales en el frontend
+      if (!data.nombre || !data.apellido || !data.telefono || !data.cumpleaños) {
+        document.getElementById('mensaje').textContent = 'Todos los campos son obligatorios.';
+        document.getElementById('mensaje').style.color = 'red';
+        return;
+      }
 
       try {
         // Envía los datos al backend usando fetch
@@ -107,5 +114,6 @@
   </script>
 </body>
 </html>
+
 
 
